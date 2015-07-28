@@ -6,7 +6,7 @@
 var feeds = [
         { 'url': "http://www.myleo.de/wods.rss" },
         { 'url': "http://www.crossfitmitte.de/en/feed/" },
-        //{ 'url': "http://www.crossfit.com/index1.xml" },
+        { 'url': "http://www.crossfit.com/index1.xml" },
         { 'url': "http://crossfitweightlifting.com/feed/" },
         { 'url': "http://crossfitnyc.com/feed/" },
         { 'url': "http://crossfitla.com/feed/" },
