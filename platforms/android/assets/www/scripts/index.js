@@ -5,11 +5,11 @@
 
 var feeds = [
         { 'url': "http://www.myleo.de/wods.rss" },
-        { 'url': "http://www.crossfitmitte.de/en/feed/" },
-        { 'url': "http://www.crossfit.com/index1.xml" },
-        { 'url': "http://crossfitweightlifting.com/feed/" },
-        { 'url': "http://crossfitnyc.com/feed/" },
-        { 'url': "http://crossfitla.com/feed/" },
+        { 'url': "http://www.crossfitmayhem.com/feed/" },
+        { 'url': "http://www.crossfitinvictus.com/feed/" },
+        { 'url': "http://www.crossfitsolid.se/feed/" },
+        //{ 'url': "http://crossfitnyc.com/feed/" },
+        //{ 'url': "http://crossfitla.com/feed/" },
 ];
 var index = 0;
 
@@ -20,42 +20,55 @@ var index = 0;
 
     function onDeviceReady() {
         // Handle the Cordova pause and resume events
+
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
-        document.addEventListener("deviceready", function () {
-            $('#mainPage').bind('swipeleft', swipeleft); //show next hides screen1, shows screen2 
-            $('#mainPage').bind('swiperight', swiperight);//show prev hides screen2, shows screen1
-        }, false);
-      
+        $('#mainPage').bind('swipeleft', swipeleft)
+        $('#mainPage').bind('swiperight', swiperight)
+       
+        //var output = '';
+        //feeds.forEach(function (feed) {
+        //    output += '<li>' + feed.url + '</li>'            
+        //});
+        //$('ul').append(output).listview('refresh');
+
+        //feeds.forEach(function (feed) {
+        //    $('ul').append($('<a/>', {    //here appending `<a>` into `<li>`
+        //        'href': 'test.html',
+        //        'data-transition': 'slide',
+        //        'text': feed.url
+        //    }))
+        //});
+
+        //onPagecontainershow();
         var feed = getFeedToDisplay();
         displayFeed(feed);
 
-        // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.      
+
     };
 
-    function displayFeed(feed) {
-        document.getElementById("content").innerHTML = "";
+
+
+    function displayFeed(feed) {      
         document.getElementById("feedTitle").innerHTML = feed.title;
         var items = feed.xml.getElementsByTagName("item");
+        var output = '';
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
             if (item.nodeType == 1) {
                 var title = item.getElementsByTagName("title")[0].firstChild.nodeValue;
                 var description = item.getElementsByTagName("description")[0].firstChild.nodeValue;
+                var link = item.getElementsByTagName("link")[0].firstChild.nodeValue;
                 var content = getEncodedContent(item);
 
-                if (content != undefined) {
-                    document.getElementById("content").innerHTML += content;
-                    document.getElementById("content").innerHTML += "<hr/>";
+                if (content != undefined) {                  
+                    output += '<li><pre><a href=' + link + '>' + title + '</a></br>' + content + '</pre></li>'                  
                 } else {
-                    document.getElementById("content").innerHTML += title;
-                    document.getElementById("content").innerHTML += "<br>";
-                    document.getElementById("content").innerHTML += description;
-                    document.getElementById("content").innerHTML += "<br>";
-                    document.getElementById("content").innerHTML += "<hr/>";
+                    output += '<li><pre><a href=' + link + '>' + title + '</a></br>' + description + '</pre></li>'
                 }
             }
         }
+        $('#wodlist').empty().append(output).listview('refresh');
     }
 
     function getFeedToDisplay() {
@@ -63,20 +76,25 @@ var index = 0;
         if (feed.xml == undefined) {
             feed.xml = httpGetXml(feed.url);
             feed.title = feed.xml.getElementsByTagName("title")[0].firstChild.nodeValue;
-            var text = httpGetText(feed.url);
         }
         return feed;
     };
 
     function swipeleft(event) {
-        index += 1;
-        displayFeed(getFeedToDisplay());
+        var tempIndex = index + 1;
+        if (tempIndex < feeds.length) {
+            index = tempIndex;
+            displayFeed(getFeedToDisplay());         
+        }
         event.handled = true;
     };
 
     function swiperight(event) {
-        index -= 1;
-        displayFeed(getFeedToDisplay());
+        var tempIndex = index - 1;
+        if (tempIndex > -1) {
+            index = tempIndex;
+            displayFeed(getFeedToDisplay());
+        }
         event.handled = true;
     };
 
@@ -111,5 +129,11 @@ var index = 0;
         xmlHttp.send(null);
         var text = xmlHttp.responseText;
         return text;
+    }
+
+    function ScaleContentToDevice() {
+        scroll(0, 0);
+        var content = $.mobile.getScreenHeight() - $(".ui-header").outerHeight() - $(".ui-footer").outerHeight() - $(".ui-content").outerHeight() + $(".ui-content").height();
+        $(".ui-content").height(content);
     }
 })();

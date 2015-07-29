@@ -4,19 +4,50 @@
     <meta charset="utf-8" />
     <title>CordovaApp</title>
 
-    <script src="../Scripts/jquery-1.9.1.min.js"></script>
-    <script src="../Scripts/bootstrap.min.js"></script>
-    <script src="../Scripts/jquery.mobile-1.4.5.min.js"></script>
+    <script src="scripts/jquery-1.9.1.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
     <link href="css/index.css" rel="stylesheet" />
-    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="content/jquery.mobile-1.4.5.min.css" rel="stylesheet" />
+    <link href="content/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
     <div data-role="page" id="mainPage">
-        <div data-role="header" data-theme="b" data-position="fixed" data-id="footer">
-            <h2 id="feedTitle"></h2>
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
+            <h1 id="feedTitle"></h1>
         </div>
+
         <div data-role="content">
-            <pre id="content" style="width:100%;"></pre>
+            <ul id="wodlist" data-role="listview"></ul>
+        </div>
+
+        <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+            <fieldset class="ui-grid-a">
+                <div class="ui-block-a">                    
+                    <a id="btnFeeds" style="width:100%" href="#" class="ui-btn ui-icon-bars ui-btn-icon-top">Feeds</a>
+                </div>
+                <div class="ui-block-b">
+                    <a id="btnSettings" style="width:100%" href="#" class="ui-btn ui-icon-gear ui-btn-icon-top">Settings</a>
+                </div>
+
+            </fieldset>
+            <!--<div data-role="navbar">
+                <ul>
+                    <li><a>Feed</a></li>
+                    <li><a>Settings</a></li>
+                </ul>
+            </div>-->
+        </div>
+
+    </div>
+
+    <div data-role="page" id="feedsPage">
+        <div data-role="content">
+            <ul id="feedlist" data-role="listview">
+                <li>test 1</li>
+                <li>test 2</li>
+            </ul>
         </div>
     </div>
 
